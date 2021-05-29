@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import uvicorn
 import pickle
+import numpy as np
 from models import Women
 app=FastAPI()
 model=pickle.load(open("model.pkl","rb"))
@@ -29,9 +30,9 @@ def predict(req:Women):
     predict=model.predict([features])
     probab=model.predict_proba([features])
     if(predict==1):
-        return {"ans":"You have been tested positive with {} probability".format(probab[0][1])}
+        return {"ans":"You have been tested positive with {} probability".format(np.round(probab[0][1]),2)}
     else:
-        return {"ans":"You have been tested negative with {} probability".format(probab[0][0])}
+        return {"ans":"You have been tested negative with {} probability".format(np.round(probab[0][0]))}
 
     
 
